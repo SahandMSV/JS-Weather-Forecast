@@ -54,8 +54,8 @@
                 </select>
             </div>
             <div class="temp_unit_switch">
-                <div class="unit_switch_C">C</div>
-                <div class="unit_switch_F">F</div>
+                <input type="button" id="unit_switch_C" value="C" onclick="temp_unit_toggle_C()">
+                <input type="button" id="unit_switch_F" value="F" onclick="temp_unit_toggle_F()">
             </div>
         </div>
     </div>
@@ -74,8 +74,14 @@
                     <div class="weather_card_small_text">Wind Speed</div>
                 </div>
             </div>
-            <div>
+            <div class="weather_card_stats">
                 <div class="weather_card_stats_shadow_container">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                     <div></div>
                     <div></div>
                     <div></div>
