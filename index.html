@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <nav>
+        <div class="nav_items">
+            <div class="nav_profile">
+                <!-- svg -->
+            </div>
+            
+            <div class="nav_main">
+                <!-- svg -->
+            </div>
+            
+            <div class="nav_setting">
+                <!-- svg -->
+            </div>
+        </div>
+        
+        <div class="theme_toggle">
+            <div class="dark_mode">
+                <!-- svg -->
+            </div>
+            
+            <div class="light_mode">
+                <!-- svg -->
+            </div>
+        </div>
+    </nav>
+
+    <div class="other_info_container">
+        <div class="date_card">
+            <div class="profile_pic"></div>
+            <div class="date_card_info">
+                <p class="date_card_username">username</p>
+                <p class="date_card_date">Mon, 15 May, 2023</p>
+            </div>
+        </div>
+        
+        <div class="customization_card">
+            <div class="city_search">
+                <input type="search">
+            </div>
+            <div class="lang">
+                <select name="" id="">
+                    <option value="En" selected>Eng</option>
+                    <option value="Sp">Spanish</option>
+                </select>
+            </div>
+            <div class="temp_unit_switch">
+                <div class="unit_switch_C">C</div>
+                <div class="unit_switch_F">F</div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="weather_card">
+            <div class="weather_card_top_info">
+                <div class="weather_icon"></div>
+                <div class="weather_info">
+                    <div class="weather_card_large_text" id="weather_city">Berlin</div>
+                    <div class="weather_card_large_text" id="weather_temp">+20^</div>
+                    <div class="weather_card_large_text" id="weather_humidity">24%</div>
+                    <div class="weather_card_large_text" id="weather_wind_speed">13km/h</div>
+                    <div class="weather_card_small_text" id="weather_country">Germany</div>
+                    <div class="weather_card_small_text">Temperature</div>
+                    <div class="weather_card_small_text">Humidity</div>
+                    <div class="weather_card_small_text">Wind Speed</div>
+                </div>
+            </div>
+            <div>
+                <div class="weather_card_stats_shadow_container">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="world_map_card"></div>
+        
+        <div class="overview_card">
+            <div class="overview_card_top_info">
+                <div>Overview</div>
+                <div class="overview_switch_container">
+                    <div id="overview_switch_Humidity">Humidity</div>
+                    <div id="overview_switch_UV">UV index</div>
+                    <div id="overview_switch_Rainfall">Rainfall</div>
+                    <div id="overview_switch_Pressure">Pressure</div>
+                </div>
+            </div>
+            <div class="overview_card_stats"></div>
+        </div>
+        
+        <div class="forecast_card">
+            <div class="forecast_card_top_info">
+                <div>Forecast</div>
+                <div class="forecast_switch_container">
+                    <div>3 days</div>
+                    <div>10 days</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="world_forecast_card">
+            <div class="world_forecast_shadow_container">
+                <div>
+                    <div id="world_forcast_add_btn"></div>
+                </div>
+                
+                <div>
+                    <div></div>
+                </div>
+                
+                <div>
+                    <div></div>
+                </div>
+                
+                <div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="others_card"></div>
+    </div>
+    
+    <script src="app.js"></script>
+    
+</body>
+</html>
