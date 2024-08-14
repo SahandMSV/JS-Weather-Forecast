@@ -1,0 +1,89 @@
+.nav-container {
+  width: 85px;
+  height: 100vh;
+  position: relative;
+  transition: width 0.35s ease;
+}
+
+nav {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(0px, -50%);
+  
+  width: 65px;
+  height: calc(100vh - 40px);
+  padding-block: 8px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  background-color: var(--main-color);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+}
+
+nav > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-header > div,
+.nav-footer > div {
+  position: relative;
+  height: 48px;
+  width: 48px;
+  background-color: var(--main-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: background-color 0.25s ease;
+}
+
+.nav-header > div:hover,
+.nav-footer > div:hover {
+  cursor: pointer;
+  background-color: rgba(65, 65, 75, 0.75);
+}
+
+.nav-header > div > svg,
+.nav-footer > div > svg {
+  fill: var(--text-light);
+  width: 25px;
+  height: 25px;
+}
+
+.ripple-overlay {
+  position: absolute;
+  background: var(--text-light);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+  animation: ripple-animation 0.5s ease-out forwards;
+  filter: blur(6px);
+  opacity: 0.6;
+}
+
+@keyframes ripple-animation {
+  0% {
+    width: 0px;
+    height: 0px;
+    opacity: 0.7;
+  }
+  
+  95% {
+    opacity: 0;
+  }
+  
+  100% {
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+  }
+}

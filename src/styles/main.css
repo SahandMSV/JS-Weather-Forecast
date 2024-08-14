@@ -1,0 +1,11 @@
+@import './global.css';
+@import './control-center.css';
+@import './navigation.css';
+@import './cards.css';
+
+body {
+  background-color: var(--main-color-dark);
+  display: grid;
+  grid-template-columns: 65px 1fr;
+  column-gap: 20px;
+}

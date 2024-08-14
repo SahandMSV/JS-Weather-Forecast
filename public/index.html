@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather</title>
+  <script defer src="../dist/main.js"></script>
+  <!-- <link rel="stylesheet" href="../src/styles/main.css"> -->
+</head>
+<body>
+  <div class="nav-container">
+    <nav>
+      <div class="nav-header">
+        <div class="nav-btns nav-btn-homepage">
+          <svg>
+            <use xlink:href="../src/sprite.svg#companyLogoMonogram"></use>
+          </svg>
+        </div>
+        
+        <div class="nav-btns nav-btn-account">
+          <svg>
+            <use xlink:href="../src/sprite.svg#profileIcon"></use>
+          </svg>
+        </div>
+        
+        <div class="nav-btns nav-btn-notifications">
+          <svg>
+            <use xlink:href="../src/sprite.svg#notificationIcon"></use>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="nav-footer">
+        <div class="nav-btns nav-btn-subscription">
+          <svg>
+            <use xlink:href="../src/sprite.svg#subscriptionIcon"></use>
+          </svg>
+        </div>
+        
+        <div class="nav-btns nav-btn-addToDesktop">
+          <svg>
+            <use xlink:href="../src/sprite.svg#addToHomescreenIcon"></use>
+          </svg>
+        </div>
+        
+        <div class="nav-btns nav-btn-settings">
+          <svg>
+            <use xlink:href="../src/sprite.svg#SettingIcon"></use>
+          </svg>
+        </div>
+      </div>
+    </nav>
+  </div>
+  
+  <main class="display-grid-container">
+    <div class="control-center-container">
+      <div class="profile-container">
+        <div class="profile-pic"></div>
+        <div class="profile-info-container">
+          <p class="profile-username">_username_</p>
+          <p class="profile-date">Mon, 15 May, 2023</p>
+        </div>
+      </div>
+      
+      <div class="control-center-controls">
+        <input class="controls-search-box" type="search">
+        
+        <select name=""  class="controls-language">
+          <option value="En" selected>English</option>
+          <option value="Sp">Spanish</option>
+        </select>
+        
+        <div class="controls-unit-toggle-container">
+          <span class="selected-temp-bg"></span>
+          <button class="celsius">C</button>
+          <button class="fahrenheit">F</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cards-container">
+      <div class="climate-overview-card">
+        <div class="climate-overview-current-status">
+          <div class="climate-overview-detail">
+            <div class="climate-overview-current-weather-icon"></div>
+            <div>
+              <div class="climate-overview-detail-large-text climate-overview-detail-countryName">Berlin</div>
+              <div class="climate-overview-detail-small-text climate-overview-detail-cityName">Germany</div>
+            </div>
+            <div>
+              <div class="climate-overview-detail-large-text climate-overview-detail-temperature">+20°</div>
+              <div class="climate-overview-detail-small-text">Temperature</div>
+            </div>
+            <div>
+              <div class="climate-overview-detail-large-text climate-overview-detail-humidity">24%</div>
+              <div class="climate-overview-detail-small-text">Humidity</div>
+            </div>
+            <div>
+              <div class="climate-overview-detail-large-text climate-overview-detail-windSpeed">13km/h</div>
+              <div class="climate-overview-detail-small-text">Wind Speed</div>
+            </div>
+          </div>
+        </div>
+        <div class="climate-overview-24hr-forecast-container">
+          <div class="climate-overview-24hr-forecast">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+          <span class="24hr-forecast-shadow-overlay 24hr-forecast-shadow-overlay-start"></span>
+          <span class="24hr-forecast-shadow-overlay 24hr-forecast-shadow-overlay-end"></span>
+        </div>
+      </div>
+      
+      <div class="world_map_card"></div>
+      
+      <div class="overview_card">
+        <!-- <div class="overview_card_top_info">
+          <div>Overview</div>
+          <div class="overview_switch_container">
+            <div id="overview_switch_Humidity">Humidity</div>
+            <div id="overview_switch_UV">UV index</div>
+            <div id="overview_switch_Rainfall">Rainfall</div>
+            <div id="overview_switch_Pressure">Pressure</div>
+          </div>
+        </div>
+        <div class="overview_card_stats"></div> -->
+      </div>
+      
+      <div class="forecast_card">
+        <!-- <div class="forecast_card_top_info">
+          <div>Forecast</div>
+          <div class="forecast_switch_container">
+            <div>3 days</div>
+            <div>10 days</div>
+          </div>
+        </div> -->
+      </div>
+      
+      <div class="world_forecast_card">
+        <!-- <div class="world_forecast_shadow_container">
+          <div>
+            <div id="world_forcast_add_btn"></div>
+          </div>
+          
+          <div>
+            <div></div>
+          </div>
+          
+          <div>
+            <div></div>
+          </div>
+          
+          <div>
+            <div></div>
+          </div>
+        </div> -->
+      </div>
+      
+      <div class="others_card"></div>
+    </div>
+  </main>
+</body>
+</html>
