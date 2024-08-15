@@ -1,3 +1,5 @@
+/* Global Card Styles */
+
 .cards-container {
   display: grid;
   grid-template-rows: 3fr 4fr 2.5fr;
@@ -9,9 +11,14 @@
 }
 
 .cards-container > div {
-  border: 2px solid var(--border-color);
   border-radius: 20px;
   padding: 10px;
+  border: 2px solid var(--border-color);
+  background-color: var(--main-color);
+  box-shadow:
+    rgba(0, 0, 0, 0.12) 0px 10px 20px,
+    rgba(0, 0, 0, 0.18) 0px 6px 6px
+  ;
 }
 
 /* Weather Card */
@@ -29,12 +36,14 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding-right: 25px;
+  min-height: 100px;
+  padding-right: 5%;
 }
 
 .climate-overview-detail > div {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .climate-overview-current-weather-icon {
@@ -56,12 +65,13 @@
 
 /* Weather Card Forecast */
 
-.climate-overview-24hr-forecast-container {
-  max-width: calc((100vw - 85px) / 1.5);
+.climate-overview-24hr-forecast {
+  position: relative;
 }
 
-.climate-overview-24hr-forecast {  
+.climate-overview-24hr-forecast-items {
   width: 100%;
+  max-width: calc((100vw - 85px) / 1.5);
   height: 100%;
   
   display: flex;
@@ -72,15 +82,42 @@
   overflow: hidden;
 }
 
-.climate-overview-24hr-forecast:hover {
+.climate-overview-24hr-forecast-items:hover {
   cursor: grab;
 }
 
-.climate-overview-24hr-forecast > div {
-  background-color: var(--border-color);
-  border-radius: 10px;
+.climate-overview-24hr-forecast-items > div {
+  position: relative;
   width: 65px;
   height: 100%;
+  background-color: var(--border-color);
+  border-radius: 10px;
   flex: 0 0 auto;
-  position: relative;
+}
+
+.climate-24hr-forecast-shadow-overlay {
+  width: 50px;
+  height: 100%;
+  position: absolute;
+  transition: opacity 0.25s ease;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+.climate-24hr-forecast-shadow-overlay-start {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--main-color),
+    transparent);
+  opacity: 0;
+}
+
+.climate-24hr-forecast-shadow-overlay-end {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--main-color),
+    transparent);
+    opacity: 1;
 }

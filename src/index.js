@@ -28,5 +28,8 @@ tempBtnF.addEventListener('click', () => {
 
 // Climate Overview Card
 
-const container = document.querySelector('.climate-overview-24hr-forecast')
-enableDragScroll(container)
+const container = document.querySelector('.climate-overview-24hr-forecast-items')
+const shadowStart = document.querySelector('.climate-24hr-forecast-shadow-overlay-start')
+const shadowEnd = document.querySelector('.climate-24hr-forecast-shadow-overlay-end')
+
+enableDragScroll(container, shadowStart, shadowEnd)

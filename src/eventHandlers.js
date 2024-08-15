@@ -72,33 +72,45 @@ export function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
 
 // Climate Overview Card
 
-export function enableDragScroll(container) {
+export function enableDragScroll(container, shadowStart, shadowEnd) {
   let isDown = false
   let startX
   let scrollLeft
   
+  function updateShadows() {
+    const isAtStart = container.scrollLeft === 0
+    const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth
+    
+    shadowStart.style.opacity = isAtStart ? '0' : '1'
+    shadowEnd.style.opacity = isAtEnd ? '0' : '1'
+  }
+  
   container.addEventListener('mousedown', (e) => {
-      isDown = true
-      startX = e.pageX - container.offsetLeft
-      scrollLeft = container.scrollLeft
-      container.style.cursor = 'grabbing'
+    isDown = true
+    startX = e.pageX - container.offsetLeft
+    scrollLeft = container.scrollLeft
+    container.style.cursor = 'grabbing'
+    updateShadows()
   })
   
   container.addEventListener('mouseleave', () => {
-      isDown = false
-      container.style.cursor = 'grab'
+    isDown = false
+    container.style.cursor = 'grab'
+    updateShadows()
   })
   
   container.addEventListener('mouseup', () => {
-      isDown = false
-      container.style.cursor = 'grab'
+    isDown = false
+    container.style.cursor = 'grab'
+    updateShadows()
   })
   
   container.addEventListener('mousemove', (e) => {
-      if (!isDown) return
-      e.preventDefault()
-      const x = e.pageX - container.offsetLeft
-      const walk = (x - startX) * 1  // Scrolling Speed
-      container.scrollLeft = scrollLeft - walk
+    if (!isDown) return
+    e.preventDefault()
+    const x = e.pageX - container.offsetLeft
+    const walk = (x - startX) * 1  // Scrolling Speed
+    container.scrollLeft = scrollLeft - walk
+    updateShadows()
   })
 }
