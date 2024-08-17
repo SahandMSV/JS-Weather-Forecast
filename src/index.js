@@ -2,7 +2,8 @@ import './styles/main.css'
 import {
   navbarBtnActiveAction,
   toggleTempUnit,
-  enableDragScroll
+  enableDragScroll,
+  toggleOverviewGraph
 } from './eventHandlers.js'
 
 // Navigation buttons active state
@@ -28,8 +29,32 @@ tempBtnF.addEventListener('click', () => {
 
 // Climate Overview Card
 
-const container = document.querySelector('.climate-overview-24hr-forecast-items')
-const shadowStart = document.querySelector('.climate-24hr-forecast-shadow-overlay-start')
-const shadowEnd = document.querySelector('.climate-24hr-forecast-shadow-overlay-end')
+const climateOverviewContainer = document.querySelector('.climate-overview-24hr-forecast-items')
+const climateOverviewShadowStart = document.querySelector('.climate-24hr-forecast-shadow-overlay-start')
+const climateOverviewShadowEnd = document.querySelector('.climate-24hr-forecast-shadow-overlay-end')
 
-enableDragScroll(container, shadowStart, shadowEnd)
+enableDragScroll(
+  climateOverviewContainer,
+  climateOverviewShadowStart,
+  climateOverviewShadowEnd
+)
+
+// Forecast Overview Card
+
+const forecastOverviewDetailContainer =
+  document.querySelector('.forecast-overview-control-container')
+const forecastOverviewDetailBtns =
+  forecastOverviewDetailContainer.querySelectorAll('button')
+const forecastOverviewDetailIndicator = 
+  document.querySelector('.forecast-overview-selected-indicator')
+
+forecastOverviewDetailBtns.forEach((btn, index) => {
+  btn.addEventListener('click', () => {
+    toggleOverviewGraph(
+      forecastOverviewDetailBtns, btn,
+      forecastOverviewDetailIndicator, index
+    )
+  })
+})
+
+forecastOverviewDetailBtns[0].click()

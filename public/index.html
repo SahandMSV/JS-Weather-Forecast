@@ -136,17 +136,21 @@
       
       <div class="world_map_card"></div>
       
-      <div class="overview_card">
-        <!-- <div class="overview_card_top_info">
-          <div>Overview</div>
-          <div class="overview_switch_container">
-            <div id="overview_switch_Humidity">Humidity</div>
-            <div id="overview_switch_UV">UV index</div>
-            <div id="overview_switch_Rainfall">Rainfall</div>
-            <div id="overview_switch_Pressure">Pressure</div>
+      <div class="forecast-overview">
+        <div class="forecast-overview-detail-container">
+          <p class="forecast-overview-title">
+            Overview
+          </p>
+          <div class="forecast-overview-control-container">
+            <span class="forecast-overview-selected-indicator"></span>
+            <button>Humidity</button>
+            <button>UV Index</button>
+            <button>Rainfall</button>
+            <button>Pressure</button>
           </div>
         </div>
-        <div class="overview_card_stats"></div> -->
+        
+        <canvas class="forecast-overview-graph" id="forecastOverviewChart"></canvas>
       </div>
       
       <div class="forecast_card">

@@ -8,4 +8,5 @@ body {
   display: grid;
   grid-template-columns: 65px 1fr;
   column-gap: 20px;
+  font-family: lato, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }

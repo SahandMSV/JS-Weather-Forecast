@@ -2,8 +2,8 @@
 
 .cards-container {
   display: grid;
-  grid-template-rows: 3fr 4fr 2.5fr;
-  grid-template-columns: 3fr 2fr;
+  grid-template-rows: 3fr 3fr 2.5fr;
+  grid-template-columns: 3fr 2.5fr;
   gap: 20px;
   padding: 0 20px 20px 20px;
   height: calc(100vh - 100px);
@@ -109,7 +109,8 @@
   background: linear-gradient(
     to right,
     var(--main-color),
-    transparent);
+    transparent
+  );
   opacity: 0;
 }
 
@@ -118,6 +119,72 @@
   background: linear-gradient(
     to left,
     var(--main-color),
-    transparent);
+    transparent
+  );
     opacity: 1;
+}
+
+/* Forecast Overview */
+
+.forecast-overview {
+  display: flex;
+  flex-direction: column;
+}
+
+.forecast-overview-detail-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.forecast-overview-title {
+  font-size: 2rem;
+  padding-inline: 8px;
+}
+
+.forecast-overview-control-container {
+  display: flex;
+  position: relative;
+  border-radius: 50px;
+  overflow: hidden;
+  background-color: var(--main-color-dark);
+}
+
+.forecast-overview-control-container > button {
+  color: var(--text-light-dark);
+  font-weight: 800;
+  font-family: lato;
+  background-color: transparent;
+  border: none;
+  width: 90px;
+  padding: 10px;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  z-index: 2;
+  transition: color 0.25s ease;
+}
+
+.forecast-overview-control-container > button:first-of-type {
+  color: var(--main-color);
+}
+
+.forecast-overview-selected-indicator {
+  position: absolute;
+  background-color: var(--accent-color);
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 4px;
+  height: calc(100% - 8px);
+  width: calc(25% - 8px);
+  border-radius: 50px;
+  z-index: 1;
+  transition: transform 0.25s ease;
+}
+
+.forecast-overview-graph {
+  height: 100%;
+  max-height: 180px;
+  max-width: 100%;
 }

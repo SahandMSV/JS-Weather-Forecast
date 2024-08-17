@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "Just a template for a future functional weather app",
   "dependencies": {
+    "chart.js": "^4.4.3",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

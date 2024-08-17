@@ -20,12 +20,13 @@ body {
 }
 
 :root {
-  --accent-color: rgb(172, 210, 210);
+  --accent-color: rgb(157, 198, 198);
   --main-color-light: rgb(160, 160, 160);
   --main-color: rgb(45, 45, 55);
   --main-color-dark: rgb(30, 30, 35);
   --border-color: rgb(65, 65, 75);
   --text-light: rgb(195, 195, 195);
+  --text-light-dark: rgb(150, 150, 150);
 }
 
 /* Scrollbar Width */
