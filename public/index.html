@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather</title>
   <script defer src="../dist/main.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <!-- <link rel="stylesheet" href="../src/styles/main.css"> -->
 </head>
 <body>
@@ -134,7 +136,9 @@
         </div>
       </div>
       
-      <div class="world_map_card"></div>
+      <div class="world-map-card">
+        <iframe class="world-map-container" src="https://api.maptiler.com/maps/1d658ea5-bb0d-46ba-a1e8-042599b7bade/?key=Bfxh3tZ0nVNYabMj4ob0#2.7/10.97662/26.60435"></iframe>
+      </div>
       
       <div class="forecast-overview">
         <div class="forecast-overview-detail-container">

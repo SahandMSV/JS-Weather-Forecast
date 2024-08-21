@@ -2,17 +2,32 @@
 
 .cards-container {
   display: grid;
+  grid-template-columns: 3fr 2fr;
   grid-template-rows: 3fr 3fr 2.5fr;
-  grid-template-columns: 3fr 2.5fr;
   gap: 20px;
   padding: 0 20px 20px 20px;
   height: calc(100vh - 100px);
+  min-height: 600px;
   color: var(--text-light);
+  transition:
+    grid-template-columns 0.5s ease-in-out,
+    grid-template-rows 0.5s ease-in-out
+  ;
+}
+
+@media screen and (max-width: 1025px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 3fr) repeat(2, 2.5fr);
+  }
+  
+  .climate-overview-24hr-forecast-items {
+    max-width: calc(100vw - 85px - 40px - 20px);
+  }
 }
 
 .cards-container > div {
   border-radius: 20px;
-  padding: 10px;
   border: 2px solid var(--border-color);
   background-color: var(--main-color);
   box-shadow:
@@ -27,6 +42,7 @@
   display: grid;
   grid-template-rows: 1fr 80px;
   gap: 10px;
+  padding: 10px;
 }
 
 /* Weather Card Detail */
@@ -71,7 +87,7 @@
 
 .climate-overview-24hr-forecast-items {
   width: 100%;
-  max-width: calc((100vw - 85px) / 1.5);
+  max-width: calc((100vw - 85px - 40px - 20px) / 5 * 3);
   height: 100%;
   
   display: flex;
@@ -88,7 +104,7 @@
 
 .climate-overview-24hr-forecast-items > div {
   position: relative;
-  width: 65px;
+  width: 70px;
   height: 100%;
   background-color: var(--border-color);
   border-radius: 10px;
@@ -124,11 +140,32 @@
     opacity: 1;
 }
 
+/* World Map */
+
+.world-map-card {
+  overflow: hidden;
+}
+
+.world-map-container {
+  width: 100%;
+  height: calc(100% + 40px);
+}
+
+.ol-control-zoom-in, .ol-control-zoom-out {
+  background-color: #000;
+  color: gray;
+  padding: 5px 10px;
+  border: 3px solid lime;
+  cursor: pointer;
+  margin: 5px; /* Add some spacing */
+}
+
 /* Forecast Overview */
 
 .forecast-overview {
   display: flex;
   flex-direction: column;
+  padding: 10px;
 }
 
 .forecast-overview-detail-container {

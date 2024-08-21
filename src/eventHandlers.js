@@ -1,6 +1,17 @@
 import { Chart, registerables } from 'chart.js'
 
-export function navbarBtnActiveAction(e) {
+// export function handleResize() {
+  
+// }
+
+export function enableNavBtnRipples() {
+  const navBtns = document.querySelectorAll('.nav-btns')
+  navBtns.forEach(navBtn => {
+    navBtn.addEventListener('click', navbarBtnActiveAction)
+  })
+}
+
+function navbarBtnActiveAction(e) {
   e.preventDefault()
   const btn = e.target.closest('.nav-btns')
   if (!btn) return
@@ -21,8 +32,23 @@ export function navbarBtnActiveAction(e) {
 }
 
 // Control Center
+export function enableTempUnitToggle() {
+  let currentUnit = 'celsius'
+  const tempContainer =
+    document.querySelector('.controls-unit-toggle-container')
+  const tempBtnC = tempContainer.querySelector('.celsius')
+  const tempBtnF = tempContainer.querySelector('.fahrenheit')
+  
+  tempBtnC.addEventListener('click', () => {  
+    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'celsius')
+  })
+  
+  tempBtnF.addEventListener('click', () => {
+    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'fahrenheit')
+  })
+}
 
-export function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
+function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
   const fahrenheitBtn = tempContainer.querySelector('.fahrenheit')
   const celsiusBtn = tempContainer.querySelector('.celsius')
   const selectedBG = tempContainer.querySelector('.selected-temp-bg')
@@ -74,7 +100,17 @@ export function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
 
 // Climate Overview Card
 
-export function enableDragScroll(container, shadowStart, shadowEnd) {
+export function enableDragScroll() {
+  const container = document.querySelector(
+    '.climate-overview-24hr-forecast-items'
+  )
+  const shadowStart = document.querySelector(
+    '.climate-24hr-forecast-shadow-overlay-start'
+  )
+  const shadowEnd = document.querySelector(
+    '.climate-24hr-forecast-shadow-overlay-end'
+  )
+  
   let isDown = false
   let startX
   let scrollLeft
@@ -117,9 +153,35 @@ export function enableDragScroll(container, shadowStart, shadowEnd) {
   })
 }
 
-// Forecast Overview Card
+// World Map
 
-export function toggleOverviewGraph(allBtns, clickedBtn, indicator, index) {
+
+// Forecast Overview Card
+export function enableOverviewDetailBtnToggle() {
+  const forecastOverviewDetailContainer = document.querySelector(
+    '.forecast-overview-control-container'
+  )
+  const forecastOverviewDetailBtns = 
+    forecastOverviewDetailContainer.querySelectorAll('button')
+  const forecastOverviewDetailIndicator = document.querySelector(
+    '.forecast-overview-selected-indicator'
+  )
+  
+  forecastOverviewDetailBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      toggleOverviewGraph(
+        forecastOverviewDetailBtns,
+        btn,
+        forecastOverviewDetailIndicator,
+        index
+      )
+    })
+  })
+  
+  forecastOverviewDetailBtns[0].click()
+}
+
+function toggleOverviewGraph(allBtns, clickedBtn, indicator, index) {
   allBtns.forEach(btn => {
     btn.style.color = 'var(--text-light-dark)'
   })
@@ -134,18 +196,29 @@ export function toggleOverviewGraph(allBtns, clickedBtn, indicator, index) {
 }
 
 let chart
+let prevIndex = undefined
+// the data points should be fetched from an API later on
 let humidityDataPoints = [87, 52, 110, 95, 135, 75, 125, 60, 45, 38, 118, 50]
 let UVIndexDataPoints  = [42, 120, 76, 80, 150, 85, 130, 65, 55, 28, 100, 70]
 let rainfallDataPoints = [35, 130, 58, 98, 145, 95, 155, 55, 40, 30, 125, 55]
 let pressureDataPoints = [65, 90, 82, 70, 115, 100, 140, 75, 60, 20, 110, 68]
-function updateOverviewGraph(index, label) {  
-  const ctx = document.getElementById('forecastOverviewChart').getContext('2d')
-  Chart.register(...registerables)
-  
-  if (chart) {
-    chart.destroy()
+function updateOverviewGraph(index, label) {
+  // Avoid Clicking the Selected Button
+  if (prevIndex === index) {
+    return
+  } else if (prevIndex === undefined) {
+    prevIndex = 0
   }
   
+  prevIndex = index
+  
+  // Setup Canvas
+  const ctx = document.getElementById('forecastOverviewChart').getContext('2d')
+  Chart.register(...registerables) // Register components (plugins, etc.)
+  
+  if (chart) chart.destroy()
+  
+  // Get Corresponding Data To Display
   let dataPoints
   switch (index) {
     case 0:
@@ -177,13 +250,19 @@ function updateOverviewGraph(index, label) {
       break
   }
   
+  // Background Colors
   const backgroundColorGradient =
   ctx.createLinearGradient(0, 0, 0, ctx.canvas.height)
   backgroundColorGradient.addColorStop(0, 'rgba(157, 198, 198, 0.85)')
   backgroundColorGradient.addColorStop(0.8, 'rgba(157, 198, 198, 0.1)')
   backgroundColorGradient.addColorStop(1, 'rgba(157, 198, 198, 0)')
+  
+  let borderLength = window.innerWidth > 1025
+    ? (window.innerWidth - 150) / 1.65
+    : window.innerWidth - 90
+  
   const borderColorGradient =
-    ctx.createLinearGradient(0, 0, window.innerWidth / 2 + 165, 0)
+    ctx.createLinearGradient(0, 0, borderLength, 0)
   borderColorGradient.addColorStop(0, 'rgba(157, 198, 198, 0)')
   borderColorGradient.addColorStop(0.2, 'rgba(157, 198, 198, 1)')
   borderColorGradient.addColorStop(0.8, 'rgba(157, 198, 198, 1)')
@@ -204,6 +283,8 @@ function updateOverviewGraph(index, label) {
     'Dec'
   ]
   
+  // Create Chart
+  let animationStarted = false
   chart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -211,7 +292,6 @@ function updateOverviewGraph(index, label) {
       datasets: [{
         label: label,
         data: dataPoints,
-        borderColor: borderColorGradient,
         backgroundColor: backgroundColorGradient,
         fill: true,
         tension: 0.4,
@@ -224,7 +304,7 @@ function updateOverviewGraph(index, label) {
           easing: 'ease',
           from: 0.8,
           to: 0.4,
-          loop: false
+          // loop: false
         }
       },
       scales: {
@@ -261,7 +341,23 @@ function updateOverviewGraph(index, label) {
             }
           }
         }
-      }
+      },
+      elements: {
+        line: {
+          borderColor: borderColorGradient,
+        },
+      },
+    },
+  })
+  
+  window.addEventListener('resize', () => {
+    if (!animationStarted) {
+      chart.options.animation.tension.duration = 500
+      chart.update()
+      animationStarted = true
+    } else {
+      chart.options.animation.tension.duration = 0
+      chart.update()
     }
   })
 }

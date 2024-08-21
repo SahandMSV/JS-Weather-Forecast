@@ -4,6 +4,7 @@
 @import './cards.css';
 
 body {
+  height: 100%;
   background-color: var(--main-color-dark);
   display: grid;
   grid-template-columns: 65px 1fr;

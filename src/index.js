@@ -1,60 +1,25 @@
 import './styles/main.css'
 import {
-  navbarBtnActiveAction,
-  toggleTempUnit,
+  enableNavBtnRipples,
+  enableTempUnitToggle,
   enableDragScroll,
-  toggleOverviewGraph
+  enableOverviewDetailBtnToggle,
 } from './eventHandlers.js'
 
-// Navigation buttons active state
-const navBtns = document.querySelectorAll('.nav-btns')
-navBtns.forEach(navBtn => {
-  navBtn.addEventListener('click', navbarBtnActiveAction)
-})
+// Navigation Buttons:
+// Apply ripple effect to navigation buttons when clicked
+enableNavBtnRipples()
 
-// Control Center
+// Control Center:
+// Enable functionality to toggle temp units (Celsius/Fahrenheit)
+enableTempUnitToggle()
 
-// Temperature unit toggle action
-let currentUnit = 'celsius'
-const tempContainer = document.querySelector('.controls-unit-toggle-container')
-const tempBtnC = tempContainer.querySelector('.celsius')
-const tempBtnF = tempContainer.querySelector('.fahrenheit')
+// Climate Overview Card:
+// Enable drag scrolling functionality for the 24-hour forecast
+// within the Climate Overview Card
+enableDragScroll()
 
-tempBtnC.addEventListener('click', () => {
-  currentUnit = toggleTempUnit(tempContainer, currentUnit, 'celsius')
-})
-tempBtnF.addEventListener('click', () => {
-  currentUnit = toggleTempUnit(tempContainer, currentUnit, 'fahrenheit')
-})
-
-// Climate Overview Card
-
-const climateOverviewContainer = document.querySelector('.climate-overview-24hr-forecast-items')
-const climateOverviewShadowStart = document.querySelector('.climate-24hr-forecast-shadow-overlay-start')
-const climateOverviewShadowEnd = document.querySelector('.climate-24hr-forecast-shadow-overlay-end')
-
-enableDragScroll(
-  climateOverviewContainer,
-  climateOverviewShadowStart,
-  climateOverviewShadowEnd
-)
-
-// Forecast Overview Card
-
-const forecastOverviewDetailContainer =
-  document.querySelector('.forecast-overview-control-container')
-const forecastOverviewDetailBtns =
-  forecastOverviewDetailContainer.querySelectorAll('button')
-const forecastOverviewDetailIndicator = 
-  document.querySelector('.forecast-overview-selected-indicator')
-
-forecastOverviewDetailBtns.forEach((btn, index) => {
-  btn.addEventListener('click', () => {
-    toggleOverviewGraph(
-      forecastOverviewDetailBtns, btn,
-      forecastOverviewDetailIndicator, index
-    )
-  })
-})
-
-forecastOverviewDetailBtns[0].click()
+// Forecast Overview Card:
+// Initialize button toggle functionality for the "Overview" and
+// "Details" buttons in the Forecast Overview Card
+enableOverviewDetailBtnToggle()
