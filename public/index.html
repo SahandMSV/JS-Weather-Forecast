@@ -6,8 +6,8 @@
   <title>Weather</title>
   <script defer src="../dist/main.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <!-- <link rel="stylesheet" href="../src/styles/main.css"> -->
+  <!-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script> -->
+  <link rel="stylesheet" href="../src/styles/main.css">
 </head>
 <body>
   <div class="nav-container">
@@ -137,14 +137,22 @@
       </div>
       
       <div class="world-map-card">
-        <iframe class="world-map-container" src="https://api.maptiler.com/maps/1d658ea5-bb0d-46ba-a1e8-042599b7bade/?key=Bfxh3tZ0nVNYabMj4ob0#2.7/10.97662/26.60435"></iframe>
+        <iframe
+          class="world-map-container"
+          id="worldMap"
+          src="https://api.maptiler.com/maps/1d658ea5-bb0d-46ba-a1e8-042599b7bade/?key=Bfxh3tZ0nVNYabMj4ob0#2.7/10.97662/26.60435">
+        </iframe>
+        <div class="world-map-no-connection-overlay">
+          <svg>
+            <use xlink:href="../src/sprite.svg#wifiOff"></use>
+          </svg>
+          <p>No Internet</p>
+        </div>
       </div>
       
-      <div class="forecast-overview">
+      <div class="forecast-overview-card">
         <div class="forecast-overview-detail-container">
-          <p class="forecast-overview-title">
-            Overview
-          </p>
+          <p class="forecast-overview-title">Overview</p>
           <div class="forecast-overview-control-container">
             <span class="forecast-overview-selected-indicator"></span>
             <button>Humidity</button>
@@ -154,40 +162,28 @@
           </div>
         </div>
         
-        <canvas class="forecast-overview-graph" id="forecastOverviewChart"></canvas>
+        <div class="forecast-overview-graph-container">
+          <canvas class="forecast-overview-graph" id="forecastOverviewChart"></canvas>
+        </div>
       </div>
       
-      <div class="forecast_card">
-        <!-- <div class="forecast_card_top_info">
-          <div>Forecast</div>
-          <div class="forecast_switch_container">
-            <div>3 days</div>
-            <div>10 days</div>
+      <div class="daily-forecast-card">
+        <div class="daily-forecast-details">
+          <p class="daily-forecast-title">Forecast</p>
+          <div class="daily-forecast-control-container">
+            <span class="daily-forecast-selected-indicator"></span>
+            <button>3 Days</button>
+            <button>10 Days</button>
           </div>
-        </div> -->
+        </div>
+        <div class="daily-forecast-data-container">
+          <div class="daily-forecast-data"></div>
+        </div>
       </div>
       
-      <div class="world_forecast_card">
-        <!-- <div class="world_forecast_shadow_container">
-          <div>
-            <div id="world_forcast_add_btn"></div>
-          </div>
-          
-          <div>
-            <div></div>
-          </div>
-          
-          <div>
-            <div></div>
-          </div>
-          
-          <div>
-            <div></div>
-          </div>
-        </div> -->
-      </div>
+      <div class="world-forecast-card"></div>
       
-      <div class="others_card"></div>
+      <div class="subscribe-card"></div>
     </div>
   </main>
 </body>

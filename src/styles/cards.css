@@ -1,29 +1,15 @@
-/* Global Card Styles */
-
 .cards-container {
+  height: calc(100% - 100px);
+  color: var(--text-light);
+  
   display: grid;
-  grid-template-columns: 3fr 2fr;
-  grid-template-rows: 3fr 3fr 2.5fr;
+  grid-template-columns: 2.5fr 2fr;
+  grid-template-rows: 3fr 3fr 2fr;
+  
   gap: 20px;
   padding: 0 20px 20px 20px;
-  height: calc(100vh - 100px);
-  min-height: 600px;
-  color: var(--text-light);
-  transition:
-    grid-template-columns 0.5s ease-in-out,
-    grid-template-rows 0.5s ease-in-out
-  ;
-}
-
-@media screen and (max-width: 1025px) {
-  .cards-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 3fr) repeat(2, 2.5fr);
-  }
   
-  .climate-overview-24hr-forecast-items {
-    max-width: calc(100vw - 85px - 40px - 20px);
-  }
+  transition: height .3s ease;
 }
 
 .cards-container > div {
@@ -40,12 +26,12 @@
 
 .climate-overview-card {
   display: grid;
-  grid-template-rows: 1fr 80px;
+  grid-template-rows: 1fr 100px;
   gap: 10px;
   padding: 10px;
 }
 
-/* Weather Card Detail */
+/* Weather Card - Header */
 
 .climate-overview-detail {
   display: flex;
@@ -79,15 +65,15 @@
   font-weight: 600;
 }
 
-/* Weather Card Forecast */
-
 .climate-overview-24hr-forecast {
   position: relative;
 }
 
+/* Weather Card - Forecast */
+
 .climate-overview-24hr-forecast-items {
   width: 100%;
-  max-width: calc((100vw - 85px - 40px - 20px) / 5 * 3);
+  max-width: calc((100vw - 145px) / 5 * 3);
   height: 100%;
   
   display: flex;
@@ -104,7 +90,7 @@
 
 .climate-overview-24hr-forecast-items > div {
   position: relative;
-  width: 70px;
+  width: 80px;
   height: 100%;
   background-color: var(--border-color);
   border-radius: 10px;
@@ -143,7 +129,29 @@
 /* World Map */
 
 .world-map-card {
+  position: relative;
   overflow: hidden;
+}
+
+.world-map-no-connection-overlay {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--main-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.world-map-no-connection-overlay > svg {
+  fill: var(--text-light);
+  width: 60px;
+  height: 60px;
 }
 
 .world-map-container {
@@ -151,20 +159,15 @@
   height: calc(100% + 40px);
 }
 
-.ol-control-zoom-in, .ol-control-zoom-out {
-  background-color: #000;
-  color: gray;
-  padding: 5px 10px;
-  border: 3px solid lime;
-  cursor: pointer;
-  margin: 5px; /* Add some spacing */
-}
-
 /* Forecast Overview */
 
-.forecast-overview {
+.forecast-overview-card {
+  position: relative;
+  
   display: flex;
   flex-direction: column;
+  
+  gap: 10px;
   padding: 10px;
 }
 
@@ -172,7 +175,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .forecast-overview-title {
@@ -191,7 +193,7 @@
 .forecast-overview-control-container > button {
   color: var(--text-light-dark);
   font-weight: 800;
-  font-family: lato;
+  font-family: lato, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: transparent;
   border: none;
   width: 90px;
@@ -214,14 +216,155 @@
   transform: translate(0, -50%);
   left: 4px;
   height: calc(100% - 8px);
-  width: calc(25% - 8px);
+  width: calc(100% / 4 - 8px);
+  border-radius: 50px;
+  z-index: 1;
+  transition: transform 0.25s ease-out;
+}
+
+.forecast-overview-graph-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.forecast-overview-graph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Daily Forecast Card */
+
+.daily-forecast-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Daily Forecast Card - Header */
+
+.daily-forecast-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 36px;
+}
+
+.daily-forecast-title {
+  font-size: 2rem;
+  padding-inline: 8px;
+}
+
+.daily-forecast-control-container {
+  display: flex;
+  position: relative;
+  border-radius: 50px;
+  overflow: hidden;
+  background-color: var(--main-color-dark);
+}
+
+.daily-forecast-control-container > button {
+  color: var(--text-light-dark);
+  font-weight: 800;
+  font-family: lato, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: transparent;
+  border: none;
+  width: 90px;
+  padding: 10px;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  z-index: 2;
+  transition: color 0.25s ease;
+}
+
+.daily-forecast-control-container > button:first-of-type {
+  color: var(--main-color);
+}
+
+.daily-forecast-selected-indicator {
+  position: absolute;
+  background-color: var(--accent-color);
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 4px;
+  height: calc(100% - 8px);
+  width: calc(100% / 2 - 8px);
   border-radius: 50px;
   z-index: 1;
   transition: transform 0.25s ease;
 }
 
-.forecast-overview-graph {
+.daily-forecast-data-container {
+  position: relative;
   height: 100%;
-  max-height: 180px;
-  max-width: 100%;
+}
+
+.daily-forecast-data {
+  position: absolute;
+  height: 100%;
+  width: calc(100% + 8px);
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  /* overflow-y: hidden; */
+}
+
+.daily-forecast-data::-webkit-scrollbar {
+  width: 6px;
+}
+
+.daily-forecast-item {
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--main-color-dark);
+  
+  height: calc(
+    calc((100vh - 120px) / 8) - (104px / 3)
+  );
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-right: 2px;
+  
+  display: flex;
+  justify-content: end;
+  transition: height .25s ease;
+}
+
+.daily-forecast-item:last-child {
+  margin-bottom: 0;
+}
+
+.daily-forecast-item .date-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: lato, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  transform: translateY(3.5px);
+}
+
+.date-container > span {
+  padding-right: 5px;
+  font-size: 1.6rem;
+  transform: translateY(-3.5px);
+}
+
+
+/* Media Queries */
+
+@media screen and (max-height: 780px) {
+  .cards-container {
+    height: 700px;
+  }
+
+  .daily-forecast-data > div {
+    height: calc(85px - (104px / 3));
+  }
 }

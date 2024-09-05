@@ -1,18 +1,18 @@
 .nav-container {
   width: 85px;
   height: 100vh;
+  padding-block: 20px;
   position: relative;
   transition: width 0.35s ease;
   display: flex;
   align-items: center;
   justify-content: end;
-  /* border: 1px solid lime; */
 }
 
 nav {
   position: static;
   width: 65px;
-  height: calc(100% - 40px);
+  height: calc(100vh - 40px);
   padding-block: 8px;
   
   display: flex;
@@ -28,9 +28,9 @@ nav {
   ;
 }
 
-@media screen and (max-height: 750px) {
+@media screen and (max-height: 780px) {
   .nav-container {
-    height: min(calc(100%), 740px);
+    height: 100%;
     align-items: start;
   }
   

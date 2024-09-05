@@ -1,15 +1,40 @@
 import { Chart, registerables } from 'chart.js'
+import {
+  navBtns,
+  tempContainer,
+  tempBtnC,
+  tempBtnF,
+  cardsContainer,
+  dragScrollContainer,
+  dragScrollShadowStart,
+  dragScrollShadowEnd,
+  worldMapNoConnectionOverlay,
+  forecastOverviewDetailBtns,
+  forecastOverviewDetailIndicator,
+  dailyForecastDetailBtns,
+  dailyForecastDetailIndicator,
+  dailyForecastData
+} from './domElements.js';
 
-// export function handleResize() {
+// Responsiveness
+
+export function applyHeightTransitionOnResize() {
+  let previousViewportHeight = window.innerHeight
   
-// }
-
-export function enableNavBtnRipples() {
-  const navBtns = document.querySelectorAll('.nav-btns')
-  navBtns.forEach(navBtn => {
-    navBtn.addEventListener('click', navbarBtnActiveAction)
+  window.addEventListener('resize', () => {
+    const currentViewportHeight = window.innerHeight
+    
+    if (currentViewportHeight > previousViewportHeight) {
+      cardsContainer.style.transition = 'height 0.3s ease'
+    } else {
+      cardsContainer.style.transition = ''
+    }
+    
+    previousViewportHeight = currentViewportHeight
   })
 }
+
+// Navigation Bar
 
 function navbarBtnActiveAction(e) {
   e.preventDefault()
@@ -31,22 +56,13 @@ function navbarBtnActiveAction(e) {
   }, 500)
 }
 
-// Control Center
-export function enableTempUnitToggle() {
-  let currentUnit = 'celsius'
-  const tempContainer =
-    document.querySelector('.controls-unit-toggle-container')
-  const tempBtnC = tempContainer.querySelector('.celsius')
-  const tempBtnF = tempContainer.querySelector('.fahrenheit')
-  
-  tempBtnC.addEventListener('click', () => {  
-    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'celsius')
-  })
-  
-  tempBtnF.addEventListener('click', () => {
-    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'fahrenheit')
+export function enableNavBtnRipples() {
+  navBtns.forEach(navBtn => {
+    navBtn.addEventListener('click', navbarBtnActiveAction)
   })
 }
+
+// Control Center
 
 function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
   const fahrenheitBtn = tempContainer.querySelector('.fahrenheit')
@@ -98,266 +114,301 @@ function toggleTempUnit(tempContainer, currentUnit, selectedUnit) {
   }
 }
 
+export function enableTempUnitToggle() {
+  let currentUnit = 'celsius'
+  
+  tempBtnC.addEventListener('click', () => {  
+    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'celsius')
+  })
+  
+  tempBtnF.addEventListener('click', () => {
+    currentUnit = toggleTempUnit(tempContainer, currentUnit, 'fahrenheit')
+  })
+}
+
 // Climate Overview Card
 
 export function enableDragScroll() {
-  const container = document.querySelector(
-    '.climate-overview-24hr-forecast-items'
-  )
-  const shadowStart = document.querySelector(
-    '.climate-24hr-forecast-shadow-overlay-start'
-  )
-  const shadowEnd = document.querySelector(
-    '.climate-24hr-forecast-shadow-overlay-end'
-  )
-  
   let isDown = false
   let startX
   let scrollLeft
   
   function updateShadows() {
-    const isAtStart = container.scrollLeft === 0
-    const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth
+    const isAtStart = dragScrollContainer.scrollLeft === 0
+    const isAtEnd = dragScrollContainer.scrollLeft + dragScrollContainer.clientWidth >= dragScrollContainer.scrollWidth
     
-    shadowStart.style.opacity = isAtStart ? '0' : '1'
-    shadowEnd.style.opacity = isAtEnd ? '0' : '1'
+    dragScrollShadowStart.style.opacity = isAtStart ? '0' : '1'
+    dragScrollShadowEnd.style.opacity = isAtEnd ? '0' : '1'
   }
   
-  container.addEventListener('mousedown', (e) => {
+  dragScrollContainer.addEventListener('mousedown', (e) => {
     isDown = true
-    startX = e.pageX - container.offsetLeft
-    scrollLeft = container.scrollLeft
-    container.style.cursor = 'grabbing'
+    startX = e.pageX - dragScrollContainer.offsetLeft
+    scrollLeft = dragScrollContainer.scrollLeft
+    dragScrollContainer.style.cursor = 'grabbing'
     updateShadows()
   })
   
-  container.addEventListener('mouseleave', () => {
+  dragScrollContainer.addEventListener('mouseleave', () => {
     isDown = false
-    container.style.cursor = 'grab'
+    dragScrollContainer.style.cursor = 'grab'
     updateShadows()
   })
   
-  container.addEventListener('mouseup', () => {
+  dragScrollContainer.addEventListener('mouseup', () => {
     isDown = false
-    container.style.cursor = 'grab'
+    dragScrollContainer.style.cursor = 'grab'
     updateShadows()
   })
   
-  container.addEventListener('mousemove', (e) => {
+  dragScrollContainer.addEventListener('mousemove', (e) => {
     if (!isDown) return
     e.preventDefault()
-    const x = e.pageX - container.offsetLeft
+    const x = e.pageX - dragScrollContainer.offsetLeft
     const walk = (x - startX) * 1  // Scrolling Speed
-    container.scrollLeft = scrollLeft - walk
+    dragScrollContainer.scrollLeft = scrollLeft - walk
     updateShadows()
   })
 }
 
-// World Map
+// World Map Card
 
+function updateConnectionAlert() {
+  fetch('https://www.google.com', { mode: 'no-cors' })
+    .then(() => {
+      // Show the connection alert
+      worldMapNoConnectionOverlay.style.transition = 'opacity 0.5s ease'
+      worldMapNoConnectionOverlay.style.opacity = '0'
+      setTimeout(() => {  
+        worldMapNoConnectionOverlay.style.transition = 'none'
+      }, 500)
+    })
+    .catch(() => {
+      // Refresh the map
+      worldMapNoConnectionOverlay.style.transition = 'opacity 0.5s ease'
+      worldMapNoConnectionOverlay.style.opacity = '1'
+      setTimeout(() => {  
+          worldMapNoConnectionOverlay.style.transition = 'none'
+      }, 500)
+    })
+}
+
+export function checkInternetConnection() {
+  window.addEventListener('load', updateConnectionAlert)
+  
+  setInterval(updateConnectionAlert, 4000)
+  
+  window.addEventListener('online', updateConnectionAlert)
+  window.addEventListener('offline', updateConnectionAlert)
+}
 
 // Forecast Overview Card
-export function enableOverviewDetailBtnToggle() {
-  const forecastOverviewDetailContainer = document.querySelector(
-    '.forecast-overview-control-container'
-  )
-  const forecastOverviewDetailBtns = 
-    forecastOverviewDetailContainer.querySelectorAll('button')
-  const forecastOverviewDetailIndicator = document.querySelector(
-    '.forecast-overview-selected-indicator'
-  )
-  
-  forecastOverviewDetailBtns.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-      toggleOverviewGraph(
-        forecastOverviewDetailBtns,
-        btn,
-        forecastOverviewDetailIndicator,
-        index
-      )
-    })
-  })
-  
-  forecastOverviewDetailBtns[0].click()
-}
 
-function toggleOverviewGraph(allBtns, clickedBtn, indicator, index) {
-  allBtns.forEach(btn => {
-    btn.style.color = 'var(--text-light-dark)'
-  })
-  
-  clickedBtn.style.color = 'var(--main-color)'
-  const label = clickedBtn.innerText
-  
-  indicator.style.transform =
-    `translate(calc(100% * ${index} + 8px * ${index}), -50%)`
-  
-  updateOverviewGraph(index, label)
-}
-
-let chart
-let prevIndex = undefined
-// the data points should be fetched from an API later on
+let forecastOverviewChart
+let forecastOverviewPrevIndex
+/// the data points should be fetched from an API later on
 let humidityDataPoints = [87, 52, 110, 95, 135, 75, 125, 60, 45, 38, 118, 50]
 let UVIndexDataPoints  = [42, 120, 76, 80, 150, 85, 130, 65, 55, 28, 100, 70]
 let rainfallDataPoints = [35, 130, 58, 98, 145, 95, 155, 55, 40, 30, 125, 55]
 let pressureDataPoints = [65, 90, 82, 70, 115, 100, 140, 75, 60, 20, 110, 68]
-function updateOverviewGraph(index, label) {
-  // Avoid Clicking the Selected Button
-  if (prevIndex === index) {
-    return
-  } else if (prevIndex === undefined) {
-    prevIndex = 0
+function updateOverviewChart(index, label) {
+  // Avoid Clicking Already Selected Buttons
+  if (forecastOverviewPrevIndex === index) return
+  else if (forecastOverviewPrevIndex === undefined) {
+    forecastOverviewPrevIndex = 0
   }
   
-  prevIndex = index
+  forecastOverviewPrevIndex = index
   
   // Setup Canvas
   const ctx = document.getElementById('forecastOverviewChart').getContext('2d')
   Chart.register(...registerables) // Register components (plugins, etc.)
   
-  if (chart) chart.destroy()
-  
   // Get Corresponding Data To Display
-  let dataPoints
-  switch (index) {
-    case 0:
-      if (humidityDataPoints) {
-        dataPoints = humidityDataPoints
-      }
-      break
-    
-    case 1:
-      if (UVIndexDataPoints) {
-        dataPoints = UVIndexDataPoints
-      }
-      break
-    
-    case 2:
-      if (rainfallDataPoints) {
-        dataPoints = rainfallDataPoints
-      }
-      break
-    
-    case 3:
-      if (pressureDataPoints) {
-        dataPoints = pressureDataPoints
-      }
-      break
-    
-    default:
-      console.log('Failed To Fetch Data Points')
-      break
-  }
+  const dataSources = [
+    humidityDataPoints,
+    UVIndexDataPoints,
+    rainfallDataPoints,
+    pressureDataPoints,
+  ]
   
-  // Background Colors
+  const dataPoints = dataSources[index]
+  ? [...dataSources[index]] : undefined
+  
+  
+  // Chart Colors
   const backgroundColorGradient =
   ctx.createLinearGradient(0, 0, 0, ctx.canvas.height)
   backgroundColorGradient.addColorStop(0, 'rgba(157, 198, 198, 0.85)')
   backgroundColorGradient.addColorStop(0.8, 'rgba(157, 198, 198, 0.1)')
   backgroundColorGradient.addColorStop(1, 'rgba(157, 198, 198, 0)')
   
-  let borderLength = window.innerWidth > 1025
-    ? (window.innerWidth - 150) / 1.65
-    : window.innerWidth - 90
-  
   const borderColorGradient =
-    ctx.createLinearGradient(0, 0, borderLength, 0)
+  ctx.createLinearGradient(0, 0, (window.innerWidth - 110) / 1.8, 0)
   borderColorGradient.addColorStop(0, 'rgba(157, 198, 198, 0)')
   borderColorGradient.addColorStop(0.2, 'rgba(157, 198, 198, 1)')
   borderColorGradient.addColorStop(0.8, 'rgba(157, 198, 198, 1)')
   borderColorGradient.addColorStop(1, 'rgba(157, 198, 198, 0)')
   
   const shortMonthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
+    'Jan', 'Feb', 'Mar',
+    'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep',
+    'Oct', 'Nov', 'Dec'
   ]
   
-  // Create Chart
-  let animationStarted = false
-  chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: dataPoints.map((_, index) => shortMonthNames[index]),
-      datasets: [{
-        label: label,
-        data: dataPoints,
-        backgroundColor: backgroundColorGradient,
-        fill: true,
-        tension: 0.4,
-      }]
-    },
-    options: {
-      animation: {
-        tension: {
-          duration: 500,
-          easing: 'ease',
-          from: 0.8,
-          to: 0.4,
-          // loop: false
-        }
+  if (forecastOverviewChart) {
+    forecastOverviewChart.data.labels =
+      dataPoints.map((_, index) => shortMonthNames[index])
+    forecastOverviewChart.data.datasets[0].label = label
+    forecastOverviewChart.data.datasets[0].data = dataPoints
+    
+    forecastOverviewChart.update()
+  } else {
+    forecastOverviewChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dataPoints.map((_, index) => shortMonthNames[index]),
+          datasets: [{
+              label: label,
+              data: dataPoints,
+              backgroundColor: backgroundColorGradient,
+              borderColor: borderColorGradient,
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4
+          }]
       },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-          beginAtZero: true
-        },
-        y: {
-          grid: {
-            color: 'rgba(65, 65, 75, 0.5)'
-          },
-          beginAtZero: true,
-          ticks: {
-            callback: function(value, index, values) {
-              return value + '%'
-            }
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          tension: {
+            duration: 350,
+            easing: 'ease',
+            from: 0.5,
+            to: 0.5,
           }
-        }
-      },
-      plugins: {  
-        legend: {
-          display: false
         },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              let label = context.dataset.label || '';
-              if (label) {
-                label += `: ${context.parsed.y}%`;
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+            beginAtZero: true
+          },
+          y: {
+            grid: {
+              color: 'rgba(65, 65, 75, 0.5)',
+            },
+            beginAtZero: true,
+            ticks: {
+              callback: function(value, index, values) {
+                return value + '%'
               }
-              return label;
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || ''
+                if (label) {
+                  label += `: ${context.parsed.y}%`
+                }
+                return label
+              }
             }
           }
         }
-      },
-      elements: {
-        line: {
-          borderColor: borderColorGradient,
-        },
-      },
-    },
+      }
+    })
+  }
+}
+
+function forecastOverviewBtnAction(clickedBtn, index) {
+  forecastOverviewDetailBtns.forEach(btn => {
+    btn.style.color = 'var(--text-light-dark)'
   })
   
-  window.addEventListener('resize', () => {
-    if (!animationStarted) {
-      chart.options.animation.tension.duration = 500
-      chart.update()
-      animationStarted = true
-    } else {
-      chart.options.animation.tension.duration = 0
-      chart.update()
-    }
+  clickedBtn.style.color = 'var(--main-color)'
+  const label = clickedBtn.innerText
+  
+  forecastOverviewDetailIndicator.style.transform =
+    `translate(calc(100% * ${index} + 8px * ${index}), -50%)`
+  updateOverviewChart(index, label)
+}
+
+export function enableForecastOverviewDetailBtnToggle() {
+  forecastOverviewDetailBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      forecastOverviewBtnAction(btn, index)
+    })
   })
+  
+  forecastOverviewDetailBtns[0].click()
+}
+
+// Daily Forecast Card
+
+let dailyForecastPrevIndex
+function updateDailyForecastData(index) {
+  // Avoid Clicking Already Selected Buttons
+  if (dailyForecastPrevIndex === index) return
+  else if (dailyForecastPrevIndex === undefined) {
+    dailyForecastPrevIndex = 0
+  }
+  
+  dailyForecastPrevIndex = index
+
+  /// Updating the forecast list
+}
+
+function dailyForecastBtnAction(clickedBtn, index) {
+  dailyForecastDetailBtns.forEach(btn => {
+    btn.style.color = 'var(--text-light-dark)'
+  })
+  
+  clickedBtn.style.color = 'var(--main-color)'
+  
+  dailyForecastDetailIndicator.style.transform =
+    `translate(calc(100% * ${index} + 8px * ${index}), -50%)`
+  updateDailyForecastData(index)
+}
+
+export function enableDailyForecastDetailBtnToggle() {
+  dailyForecastDetailBtns.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      dailyForecastBtnAction(btn, index)
+    })
+  })
+  
+  dailyForecastDetailBtns[0].click()
+}
+
+export function initializeDomStructure() {
+  const today = new Date()
+  today.setDate(today.getDate() + 1)
+
+  for (let i = 0; i < 10; i++) {
+    const div = document.createElement('div')
+    div.classList.add('daily-forecast-item')
+    const dateDiv = document.createElement('div')
+    dateDiv.classList.add('date-container')
+
+    const currentDayDate = today.getDate()
+    const currentMonth = today.toLocaleString('default', { month: 'short' })
+    const currentDayName = today.toLocaleString('default', { weekday: 'short' })
+
+    dateDiv.innerHTML = `<span>${currentDayDate}</span> ${currentMonth}, ${currentDayName}`
+
+    div.appendChild(dateDiv)
+    dailyForecastData.appendChild(div)
+
+    today.setDate(today.getDate() + 1)
+  }
 }
